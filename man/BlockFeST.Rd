@@ -1,0 +1,69 @@
+\name{BlockFeST}
+
+\docType{methods}
+\alias{BlockFeST}
+
+
+\title{Bayesian calculation of region-specific Fixation Index (FST) to detect local adaptation}
+
+
+\description{
+
+The method is based on the work from Beaumont and Balding (2004) where they introduce a \eqn{F_{ST}} based hierarchical Bayesian model to detect loci that are subject to selection. In this Bayesian approach they use a logistic regression model to distinguish between locus-specific effects like selection and population-specific effects which are shared by all loci (e.g effects caused by migration rates) (Riebler, 2008). 
+Foll and Gaggiotti (2008) extended this work using a reversible jump MCMC (Green, 1995) which enables testing the hypothesis that a locus is subject to selection; a very similar approach was developed in parallel by Riebler & Stefan (2008). The method is implemented in a software named BayeScan (http://cmpg.unibe.ch/software/BayeScan/). The new method introduced here is a modification of BayeScan (see details). 
+}
+
+\usage{
+
+BlockFeST(input,GROUP=FALSE,nb=20,runtime=500)
+
+}
+
+\arguments{
+
+  \item{input}{textfile or an R-object returned from the function \code{getBayes()} provided by the R-package PopGenome}
+  \item{GROUP}{SNP groups}
+  \item{nb}{number of MCMC runs}
+  \item{runtime}{length of MCMC runs}
+
+} 
+
+\value{
+
+returned value is an object of class \code{"BAYESRETURN"} \cr \cr
+-------------------------------------------------------------- \cr
+Following Slots will be filled \cr
+-------------------------------------------------------------- \cr
+
+   \item{alpha}{alpha (\eqn{\alpha}) effects}
+   \item{beta}{beta (\eqn{\beta}) effects}
+   \item{var_alpha}{variance of alphas}
+   \item{fst}{\eqn{Fe_{ST}} values}
+   \item{region.names}{names of region}
+    
+}
+
+\details{
+BlockFeST considers all SNPs separately but generates exactly one region-specific alpha 
+for each region (or group of SNPs). Example files can be found in the subdirectory "exdata".\cr 
+}
+
+\references{ 
+[1] Foll M and OE Gaggiotti (2008). \emph{A genome scan method to identify selected loci appropriate for both dominant and codominant markers: A Bayesian perspective.} Genetics 180: 977-993 \cr \cr
+[2] Beaumont M, Balding D. 2004. \emph{Identifying adaptive genetic divergence among populations from genome scans}.Molecular Ecology. 13:969-980. \cr \cr
+[3] Riebler A, Held L, Stephan W. 2008. \emph{Bayesian variable selection for detecting adaptive genomic differences among populations}. Genetics 178: 1817-1829 \cr \cr
+[4] Green  PJ. 1995. \emph{Reversible jump Markov chain Monte Carlo computation and Bayesian model determination}. Biometrika 82: 711-732. \cr \cr
+
+}
+\examples{
+
+snps   <- system.file("extdata", "snps.txt", package="BlockFeST")
+groups <- system.file("extdata", "groups.txt", package="BlockFeST")
+BlockFeST.result <- BlockFeST(input=snps, GROUP=groups, nb=3, runtime=10)
+P <- calcPval(BlockFeST.result)
+
+}
+
+
+
+\keyword{methods}

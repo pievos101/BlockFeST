@@ -1,0 +1,11 @@
+useDynLib(BlockFeST, .registration = TRUE)
+
+import(methods)
+import(BASIX)
+
+importFrom("stats", "dnorm", "rgamma", "rnorm", "runif", "sd")
+importFrom("utils", "read.table", "write.table")
+
+export(BlockFeST)
+export(calcPval)
+

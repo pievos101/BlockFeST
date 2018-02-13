@@ -1,0 +1,77 @@
+\documentclass[a4paper]{article}
+% \VignetteIndexEntry{Input format}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage[nogin]{Sweave}
+
+\title{$BlockFe_{ST}$: Input formats}
+\author{Bastian Pfeifer}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\maketitle 
+
+
+The function $BlockFe_{ST}$ requires two text files to perform the simulations (see the 
+\textit{exdata} sub-directory of the BlockFeST R package).
+
+\section{File 1: SNP data (sample sizes, populations and allele frequencies)}
+
+The main input format of $BlockFe_{ST}$ is a space-seperated text file (snps.txt).
+\\
+\\ 
+\includegraphics[scale=0.5]{snps.png}
+\\
+\\
+The first row ([loci]=4) defines the total number of SNPs observed from the data where 
+the next line ([populations]=2) defines the total number of populations.
+From line 5 to 9 (population 1) and from line 11 to 15 (population 2) the following population specific informations are required:
+\\
+\\
+column: \\
+1)\quad\quad numerical id of the SNPs (1,$\ldots$,n.SNPs) \\
+2)\quad\quad sample size of the population. \\
+3)\quad\quad	 The number of alleles observed in one SNP (default=2). \\
+4)\quad\quad	 Counts of the major allele. \\
+5)\quad\quad	 Counts of the minor allele. \\
+\\
+\\
+The values again have to be seperated by a space " " shift.
+
+\section{File 2: Define the regions by creating groups of SNPs}
+A second input file (groups.txt) is required to set the grouping of the SNPs.
+\\
+\\
+\includegraphics[scale=0.5]{groups.png}
+\\
+\\
+The text file contains three tab-seperated columns, where the first column defines the name of the gene, the second column the start positions (SNP position)
+and the third column the corresponding end position (SNP position).
+The total number of rows is limited by the total number of genes (in our example [loci]=4). 
+\\
+\\   
+The function call would than be:
+\\
+\\
+\texttt{
+results <- BlockFeST(input="snps.txt",GROUP="groups.txt")
+}
+\section{Using the R-package PopGenome to generate the input}
+$BlockFe_{ST}$ is fully integrated with the R-package PopGenome which can read in a wide range of commonly used formats storing SNP, as well as alignment data (VCF, FASTA ...). Doing so PopGenome creates an object of class \texttt{GENOME} which is the input object of the interface function (also provided by PopGenome) \texttt{getBayes()}.
+See the \texttt{Usage} section for more details.
+\\
+\\ 
+\texttt{
+install.packages("PopGenome")\\
+library(PopGenome)\\
+\\
+\\
+GENOME.class <- readData("Alignments")\\
+GENOME.class <- set.populations(GENOME.class,list(c(...),c(...))) \\
+input <- getBayes(GENOME.class, snps=TRUE)\\
+results <- BlockFeST(input)\\
+}
+
+\end{document}
+
