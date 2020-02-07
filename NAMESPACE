@@ -5,6 +5,7 @@ import(BASIX)
 
 importFrom("stats", "dnorm", "rgamma", "rnorm", "runif", "sd")
 importFrom("utils", "read.table", "write.table")
+importFrom("graphics", "lines", "plot")
 
 export(BlockFeST)
 export(calcPval)
