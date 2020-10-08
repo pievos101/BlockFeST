@@ -163,12 +163,18 @@ update_d_betaco <- function(){
   old_theta   <- outer(BBB2$d_alpha,old_beta,"+")
   old_theta   <- exp(-(old_theta))
   
+  #cat("old_theta", old_theta,"\n")
+
   old1 <- lgamma(old_theta)-lgamma(BBB2$sample_size+old_theta)
   
+  #cat("old1: ",old1,"\n")
+
   for(xx in 1:BBB2$popnum){
       xyz     <- old_theta[,xx]*BBB2$freq_locus
       val[xx] <- sum(lgamma(BBB2$freq_pop[[xx]]+xyz)-lgamma(xyz),na.rm=TRUE)
   }
+
+ #cat("val:",val,"\n")
 
   old1 <- colSums(old1)
   oldL <- old1 + val
@@ -186,11 +192,30 @@ update_d_betaco <- function(){
   new1 <- colSums(new1)
   newL <- new1 + val
 
-A                <-  -oldL + newL #+ (old_beta^2-BBB2$d_beta^2)/(2*BBB2$sd_prior_beta^2)
+A                <-  -oldL + newL 
+
+#+ (old_beta -BBB2$d_beta)*(old_beta+BBB2$d_beta-2*BBB2$mean_prior_beta)/(2*BBB2$sd_prior_beta^2)
+
+#+ (old_beta^2-BBB2$d_beta^2)/(2*BBB2$sd_prior_beta^2)
 #+ (old_alpha_group^2-new_alpha_group^2)/(2*BBB2$sd_prior_alpha^2)
-#+ (old_beta-BBB2$d_beta)*(old_beta+BBB2$d_beta-2*BBB2$mean_prior_beta)/(2*BBB2$sd_prior_beta^2)
+
 r                <-  runif(BBB2$popnum)
 check            <-  log(r)>A
+
+
+#cat("-oldL: ",-oldL, "\n")
+#cat("newL: ",newL, "\n")
+
+#print(A)
+#print(old_beta)
+#print(check)
+#print(r)
+
+#if(any(is.na(check))){
+#print("yes")
+#check[is.na(check)] <- TRUE
+#}
+
 BBB2$d_beta[check]        <- old_beta[check]
 BBB2$acc_beta[!check]     <- BBB2$acc_beta[!check] + 1
 

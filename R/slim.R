@@ -35,12 +35,15 @@ modification <- FALSE
 			 GROUP.file    <- read.table(GROUP,sep="\t",colClasses=c("character","numeric","numeric"))
 			 GROUP.names   <- GROUP.file[,1]
                          GROUP.regions <- as.matrix(GROUP.file[,2:3])
-                         GROUP         <- apply(GROUP.regions,1,function(x){ret <- x[1]:x[2];return(x)})
-		         GROUP         <- unlist(GROUP)
+                        # GROUP         <- apply(GROUP.regions,1,function(x){ret <- x[1]:x[2];return(x)})
+			 #GROUP         <- unlist(GROUP)
+			 GGG <- NULL	
+			 for(xx in 1:length(GROUP.names)){
+			 GGG <- c(GGG, rep(xx,length(GROUP.regions[xx,1]:GROUP.regions[xx,2])))
+			 }
 
 
-
-           		 BBB2$GROUP      <- GROUP
+           		 BBB2$GROUP      <- GGG
           		 BBB2$N.REGIONS  <- length(unique(GROUP))
          	 }
 
