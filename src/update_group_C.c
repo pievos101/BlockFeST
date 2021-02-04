@@ -6,25 +6,29 @@
 extern SEXP update_group(SEXP Roldalpha, SEXP Rwhatgroup, SEXP Rsubgroup, SEXP Regroup){
 
 SEXP ret = R_NilValue;
-SEXP Rvalue1;
-SEXP Rvalue2;
-SEXP Rvalue3;
-SEXP Rvalue4;
+SEXP Rvalue1 = R_NilValue;
+SEXP Rvalue2 = R_NilValue;
+SEXP Rvalue3 = R_NilValue;
+SEXP Rvalue4 = R_NilValue;
 
 int ngroups             = length(Rwhatgroup);
 int nalpha              = length(Roldalpha);
 int nsubgroup           = length(Rsubgroup);
 
 Rvalue1                 = coerceVector(Roldalpha, REALSXP);
+PROTECT(Rvalue1);
 double *oldalpha        = REAL(Rvalue1);
 Rvalue2                 = coerceVector(Rsubgroup, INTSXP);
+PROTECT(Rvalue2);
 int *subgroup           = INTEGER(Rvalue2);
 Rvalue3                 = coerceVector(Regroup, REALSXP);
+PROTECT(Rvalue3);
 double *egroup          = REAL(Rvalue3);
 Rvalue4                 = coerceVector(Rwhatgroup, INTSXP);
+PROTECT(Rvalue4);
 int *whatgroup          = INTEGER(Rvalue4);
 
-PROTECT(Rvalue1);
+
 
 for (int xx=0; xx<ngroups; xx++ ){
 
@@ -41,7 +45,7 @@ for (int xx=0; xx<ngroups; xx++ ){
 
 //PROTECT(newalpha = allocVector(REALSXP,R_length(Roldalpha)));
 
-UNPROTECT(1);
+UNPROTECT(4);
 
 return Rvalue1;
 

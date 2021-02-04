@@ -44,7 +44,9 @@ modification <- FALSE
 
 
            		 BBB2$GROUP      <- GGG
-          		 BBB2$N.REGIONS  <- length(unique(GROUP))
+          		 BBB2$N.REGIONS  <- length(unique(GGG))
+  			 #print(BBB2$GROUP)
+			 #print(BBB2$N.REGIONS)
          	 }
 
 
@@ -81,7 +83,7 @@ modification <- FALSE
 
 		hapcount <- population[[1]][1,2]
          		
-        
+        	#print(hapcount)
 
         ### INPUT is an R-object
 	} else {
