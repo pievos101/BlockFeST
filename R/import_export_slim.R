@@ -1,4 +1,3 @@
-#berend krebs master thesis
 #import/export function
 
 
@@ -16,6 +15,7 @@ import_file <- function(modus, filename, locnum, popnum){
 			tmp<-matrix(append(tmp,p),ncol=4)
 			population[[i]]<-tmp;
 		}
+	#modus 1 -> codominant marker
 	} else {
 		hapnum<-as.integer(scan(filename,what="",skip=5,nlines=1)[3]);
 		for(i in 1:popnum){
